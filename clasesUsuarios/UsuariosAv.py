@@ -9,23 +9,24 @@ class UsuariosAv:
 
         self._registros = []
         self._campos = []
-        
-    def CrearOtrTabla(self, NuevaTabla) -> None:
 
         
+    def CrearOtrTabla(self, NuevaTabla) -> None:
+  
         UsEst.con.execute(NuevaTabla)
         UsEst.con.commit()
        
-    def ActDatTabla(self) -> None:
-        pass
+    def ActDatTabla(self, ActualizarDato) -> None:
+        
+        UsEst.con.execute(ActualizarDato)
+        UsEst.con.commit()
+        
     def EliminarTablas(self, EliminarTabla, ) -> None:
 
       
         UsEst.con.execute(EliminarTabla)
         UsEst.con.commit()
         
-      
-
     def InsDatosCd(self, IngDatos) -> None:
         UsEst.con.execute(IngDatos)
         UsEst.con.commit()

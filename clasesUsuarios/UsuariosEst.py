@@ -2,8 +2,9 @@ import sqlite3 as bd
 import sys
 import os
 import tabulate 
+import colorama as estilo
 
-
+estilo.init(autoreset=True)
 # Obtener la ruta al directorio que contiene UsuariosAv.py
 ruta_modulo = os.path.abspath("clasesUsuarios")
 
@@ -28,7 +29,7 @@ class UsuariosEst:
     def __init__(self) -> None:
         self._registros = []
         self._campos = []
-        
+        self._verificador = None
     #El Metodo InsetarRgistros recibe los datos de la clase interfazUsuario() del metodo DatosEntrada.
     def InsertarRegistros(self, id, NombreProducto, Cantidad, NombreProveedor) -> None:
         con.execute("INSERT INTO Productos(Id, Nombre, Cantidad, NombreProveedor) VALUES ({}, '{}', '{}', '{}')".format(id, NombreProducto, Cantidad, NombreProveedor))
@@ -50,7 +51,7 @@ class UsuariosEst:
             self._campos.append(i[1])
         
        
-       # Se crea una matriz bidimesionaln y se agregan los registos a la matriz
+       # Se crea una matriz bidimesional y se agregan los registos a la matriz
         for indice, datos in enumerate(con.execute("SELECT * FROM Productos")):
             registros = list(datos)
             self._registros.append([])
@@ -65,29 +66,27 @@ class UsuariosEst:
     # El Metodo BorrarRegistros borra los datos almacenados en la tabla Productos por medio Id. Ingresado por el usuario
     def BorrarRegistros(self, id) -> None:
         for registros in cur.execute("SELECT * FROM Productos"):
-            if not id in registros: # Esta condición verifica si el Id ingresado por existe en la tabla Productos. 
-                print("El id '{}' no se encuentra registrado.".format(id))
+            if id in registros: # Esta condición verifica si el Id existe en la tabla Productos. 
+                self._verificador = True
+                break
+            
             else:
-                con.execute("DELETE FROM Productos WHERE Id = {}".format(id))
-                con.commit()
-                self
-                for i in registros:
-                    print(i)
+                self._verificador = False
                 
-                print("Registro '{}' se elimino de forma exitosa.".format(id))
-        con.commit()
-    
-    
+        if self._verificador == True:
+            con.execute("DELETE FROM Productos WHERE Id = {}".format(id))
+            con.commit()
+            print("El id {} se borro de forma exitosa.".format(id))
+        else:
+            print("El id '{}' no se encuentra registrado.".format(id))
+                
     def actualizarTabla(self) -> None:
         
         if self._campos and self._registros: 
             self._campos.clear()
             self._registros.clear()
         
-        
-        
-        
-
+    
     # El metodo crearOtrTabla crea una tabla nueva. Esta opcion es solo para usuarios avanzados.
 
 # -------------------------------------------------------------------------------------------------------------------------------
@@ -114,6 +113,7 @@ class interfazUsuario:
                               "au delete table": self.ElimTabla,
                               "au input data": self.IngreDat,
                               "au delete data": self.EliminarReg,
+                              "au update data": self.ActDatos,
                               "au consulte table": self.ConsulTabla}
 
     # El metodo metodoEjecucion contiene todos comandos que el usuario puede ingresar para hacer una gestión.
@@ -121,7 +121,7 @@ class interfazUsuario:
 
         #Interfaz de usuarios estandar
          while True:
-            print("*" * 5, "Sistema de gestión de datos versión 1.0", "*" * 5)
+            print(estilo.Fore.RED +  "PyPulperiaManager version 1.0")
             opciones = str(input("> ")).lower()
             for claves_usEst in self._comandosUsEst:
                 if opciones in claves_usEst:
@@ -209,3 +209,9 @@ class interfazUsuario:
         self._comandoSql = input("> ")
         usAv.UsuariosAv().ElimRegis(EliminarReg=self._comandoSql)
         print("registro eliminado.")
+        
+    def ActDatos(self) -> None:
+        print("Ingrese el comando sql para actualizar el registro")
+        self._comandoSql = input("> ")
+        usAv.UsuariosAv().ActDatTabla(ActualizarDato=self._comandoSql)
+        print("registro actualizado.")
