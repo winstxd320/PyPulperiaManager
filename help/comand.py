@@ -1,9 +1,12 @@
-print("Comandos de PyPulperiaManager version 1.0")
-infAplicacion = """
 
+infAplicacion = """
 PyPulperiaManager es un software de código abierto desarrollado por WinstXD320, para almacenar y
-gestionar datos de una forma sencilla. Para descargar y ver más apliaciones gratuitas, visita la web 
+gestionar datos de una forma sencilla. Para descargar y ver más apliaciones gratuitas, visita la web  
 https://winstxd320.github.io/
+"""
+
+comandos = """
+información para el usuario:
 
 Esta aplicación tiene por defecto una tabla llamada productos, en donde se pueden almacenar distintos datos
 relaconados a un producto. Los campos de la tabla son ID, Nombre, cantidad, NombreProveedor.  
@@ -26,9 +29,7 @@ cadena de texto; a su vez estos datos númericos puede estar reprentados por uni
 
 NombreProveedor --> Se guarda datos de tipo cadena de texto. Puedes guardar el nombre del proveedor de producto. 
 
-"""
-
-comandos = """
+Comandos:
 
 Comandos de usuarios estandares:
 
@@ -36,6 +37,21 @@ input data --> Ingresa datos a la tabla de productos.
 update data --> Actualiza los datos ingresaros en la tabla de productos.
 delete data --> Borra los datos de la tabla de productos.
 consulte table --> Muestra la tabla de productos.
+
+Comandos de configuración:
+
+conftable --> Cambia el color de la tabla.
+    | bluetable --> Cambia el color de la tabla a azul.
+    | yellowtable --> Cambia el color de la tabla a amarillo. 
+    | greentable --> Cambia el color de la tabla a verde.
+    | whitetable --> Cambia el color de la tabla a blanco.
+    
+confstyle --> Cambia el estílo de la tabla.
+    
+    | plain
+    | simple
+    | github
+    | grid    
 
 avanced user.on --> Activa la función de usuarios avanzados
 avanced user.off --> Desactiva la función de usuarios avanzados y vuelve a la función estadar con la tabla productos.
@@ -54,4 +70,6 @@ au update data --> Actualiza los datos por medio de la instrucción sql UPDATE.
 au delete data --> Borra los datos de la tabla por medio de la instrucción sql DELETE.
 au delete table --> Elimina una tabla de datos por medio de la instrucción sql DROP.
 au consulte table --> Muestra una tabla ya creada. 
+tables --> Muestra todas las tablas creadas por el usuario.
+    | La tabla sqlite_sequence rastrea la información sobre las secuencias que se utilizan para generar valores en columnas con la propiedad AUTOINCREMENT.
 """
